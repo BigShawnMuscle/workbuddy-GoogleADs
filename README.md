@@ -1,0 +1,2 @@
+# workbuddy-GoogleADs
+用于workbuddy搭建的Google ADs工作台使用，主要是用于广告数据的分析和广告的优化
