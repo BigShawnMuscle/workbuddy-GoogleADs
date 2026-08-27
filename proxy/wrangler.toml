@@ -1,0 +1,9 @@
+name = "google-ads-proxy"
+main = "worker.js"
+compatibility_date = "2026-08-27"
+account_id = "c34e08dc3cf0cfaf5675a6dbd96e00c7"
+
+[vars]
+GOOGLE_ADS_LOGIN_CUSTOMER = "8021601652"
+GOOGLE_ADS_API_VERSION = "v24"
+REAL_EPOCH = "2026-08-25"

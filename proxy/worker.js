@@ -54,7 +54,7 @@ function buildGaql(dateFrom, dateTo) {
 }
 
 async function queryAccount(token, env, customerId, gaql) {
-  const version = env.GOOGLE_ADS_API_VERSION || 'v19';
+  const version = env.GOOGLE_ADS_API_VERSION || 'v24';
   const url = 'https://googleads.googleapis.com/' + version + '/customers/' + customerId + '/googleAds:searchStream';
   const headers = {
     Authorization: 'Bearer ' + token,
@@ -65,7 +65,7 @@ async function queryAccount(token, env, customerId, gaql) {
   const res = await fetch(url, {
     method: 'POST',
     headers,
-    body: JSON.stringify({ query: gaql, pageSize: 10000 }),
+    body: JSON.stringify({ query: gaql }),
   });
   if (!res.ok) throw new Error('searchStream ' + customerId + ' failed: ' + res.status + ' ' + (await res.text()).slice(0, 300));
   const batches = await res.json();
@@ -125,10 +125,10 @@ export default {
       for (const a of ACCOUNTS) {
         try {
           const rows = await queryAccount(token, env, a.id, gaql);
-          accounts[a.id] = normalize(rows, epochMs);
+          accounts[a.name] = normalize(rows, epochMs);
         } catch (e) {
           // 单账户失败不拖垮整体，返回错误信息便于排查
-          accounts[a.id] = { error: String(e && e.message || e) };
+          accounts[a.name] = { error: String(e && e.message || e) };
         }
       }
       return new Response(JSON.stringify({ epoch, range: { from: fmt(dateFrom), to: fmt(dateTo) }, accounts }), {
