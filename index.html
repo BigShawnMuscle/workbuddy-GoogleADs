@@ -994,6 +994,13 @@ function cloudAddDataRows(acc,rows,onProgress){
   return step(0).then(function(){return done});
 }
 function updateSyncUI(){
+  // 非 WorkBuddy 资料库环境（如 GitHub Pages / 本地文件）不显示资料库同步状态
+  if(!sdk()){
+    $('syncBadge').style.display='none';
+    $('offlineNotice').style.display='none';
+    return;
+  }
+  $('syncBadge').style.display='';
   if(CLOUD.ok){setSync('ok','已同步');$('offlineNotice').style.display='none'}
   else{setSync('off','离线模式');$('offlineNotice').style.display='block'}
 }
@@ -1544,10 +1551,13 @@ function initCloudForAccount(){
     CLOUD.ok=true;
     var t0=Date.now();
     var waitSdk=function(){if(window.__SMART_PAGE__&&window.__SMART_PAGE__.database){CLOUD.ok=true;initCloudForAccount()}
-      else if(Date.now()-t0>3000){CLOUD.ok=false;updateSyncUI()}
+      else if(Date.now()-t0>8000){CLOUD.ok=false;updateSyncUI()}
       else setTimeout(waitSdk,200)};
     waitSdk();
-  }else{CLOUD.ok=false;updateSyncUI()}
+  }else{
+    // 不在资料库环境，隐藏资料库同步 UI，直接走实时 API
+    updateSyncUI();
+  }
   fetchLive();
 })();
 </script>
