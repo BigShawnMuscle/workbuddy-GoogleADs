@@ -805,6 +805,13 @@ function fetchLive(){
       var a=j.accounts[id];if(!a||!a.c||!a.r||!a.r.length)return;
       var rows=a.r;
       if(delta!==0){rows=rows.map(function(r){var x=r.slice();x[0]+=delta;return x})}
+      /* 防御：Worker 曾因字段名不匹配（cost_micros vs costMicros）返回 spend 全 0，
+         直接覆盖会让所有花费类 KPI 变成 ¥0。若 live 花费为 0 而内置数据非零，拒绝覆盖。 */
+      var liveSpend=0,curSpend=0;
+      for(var i=0;i<rows.length;i++)liveSpend+=rows[i][7]||0;
+      var oldR=REAL_DATA[aid]&&REAL_DATA[aid].r;
+      if(oldR)for(var k=0;k<oldR.length;k++)curSpend+=oldR[k][7]||0;
+      if(liveSpend===0&&curSpend>0){console.warn('实时数据花费为 0，疑似代理字段异常，保留内置数据: '+aid);return}
       REAL_DATA[aid]={c:a.c,r:rows};
       delete realCache[aid];
       n+=rows.length;
