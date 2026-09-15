@@ -1,0 +1,57 @@
+{
+ "basic": {
+  "name": "BasicMedical_EN_20251229",
+  "cid": "2068692080",
+  "impr": 124992,
+  "clicks": 5465,
+  "spend": 14164.02,
+  "conv": 2,
+  "rows": 338,
+  "camps": 9,
+  "cur": "CNY"
+ },
+ "gloves": {
+  "name": "Intco_Gloves_EN_20240222",
+  "cid": "4469410060",
+  "impr": 377044,
+  "clicks": 8798,
+  "spend": 93552.26,
+  "conv": 189,
+  "rows": 847,
+  "camps": 33,
+  "cur": "CNY"
+ },
+ "medical": {
+  "name": "Intco_Medical_EN_20251031",
+  "cid": "8529881574",
+  "impr": 36930,
+  "clicks": 3434,
+  "spend": 38818.82,
+  "conv": 19,
+  "rows": 505,
+  "camps": 9,
+  "cur": "CNY"
+ },
+ "wheelchair": {
+  "name": "Intco_Wheelchair_EN_20240123",
+  "cid": "4325844223",
+  "impr": 6,
+  "clicks": 0,
+  "spend": 0.09,
+  "conv": 0,
+  "rows": 2,
+  "camps": 36,
+  "cur": "CNY"
+ },
+ "healthcare": {
+  "name": "Intco_Healthcare_EN_20240222",
+  "cid": "6921495146",
+  "impr": 0,
+  "clicks": 0,
+  "spend": 0,
+  "conv": 0,
+  "rows": 0,
+  "camps": 14,
+  "cur": "CNY"
+ }
+}

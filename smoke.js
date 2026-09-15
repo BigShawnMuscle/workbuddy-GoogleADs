@@ -102,7 +102,7 @@ for (const a of ctx.ACCOUNTS) {
     ctx.renderAll();
     const badge = created['dataBadge'] ? created['dataBadge']._text : '';
     const spend = created['kSpend'] ? created['kSpend']._text : '';
-    console.log('  %-11s %-30s 徽标=%s 花费=%s', a.id, a.gname || a.name, badge, spend);
+    console.log('  ' + a.id.padEnd(12) + (a.gname || a.name).padEnd(30) + '徽标=' + badge + ' 花费=' + spend);
   } catch (e) {
     errors.push(a.id + ': ' + e.message);
     console.log('  %-11s 渲染失败: %s', a.id, e.message);
@@ -119,6 +119,25 @@ for (const a of ctx.ACCOUNTS) {
   const g = created['kpiGrid'];
   const txt = (g ? g._html : '').replace(/<[^>]+>/g, '|').replace(/\|+/g, ' | ').replace(/\s+/g, ' ').trim();
   console.log('  [%s] %s', a.id, txt.slice(0, 240));
+}
+
+// 明细看板（关键词/搜索词/广告/落地页）是否有真实内容
+console.log('\n明细看板渲染（近 30 天）：');
+for (const a of ctx.ACCOUNTS) {
+  ctx.S.account = a.id; ctx.S.range = 30;
+  ctx.S.filters = { campaign: '', ctype: '', market: '', adgroup: '', device: '', action: '', brand: '', category: '' };
+  ctx.renderAll();
+  const cnt = id => {
+    const el = created[id];
+    if (!el) return '无节点';
+    const h = el._html || '';
+    const rows = (h.match(/<tr>/g) || []).length;
+    return /没有该维度的真实数据|无广告投放数据|无落地页数据/.test(h) ? '空态提示' : rows + ' 行';
+  };
+  const tag = id => (created[id] ? created[id]._text : '');
+  console.log('  ' + a.id.padEnd(12) + '关键词 ' + cnt('kwTbl').padEnd(10)
+    + tag('kwDemoTag').padEnd(18) + '搜索词 ' + cnt('stTbl').padEnd(10)
+    + '广告 ' + cnt('adTbl').padEnd(10) + '落地页 ' + cnt('lpTbl'));
 }
 
 console.log('\n结论: %s', errors.length ? '存在问题 ✗\n  ' + errors.join('\n  ') : '冒烟通过 ✓');

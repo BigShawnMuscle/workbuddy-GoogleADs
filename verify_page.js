@@ -1,7 +1,15 @@
 /* 抽取页面脚本做语法检查 + 用页面自身逻辑重算近30天KPI */
 const fs = require('fs');
 const vm = require('vm');
-const html = fs.readFileSync('repo/index.html', 'utf8');
+const path = require('path');
+const CANDIDATES = [
+  path.join(__dirname, 'index.html'),
+  path.join(__dirname, '..', 'index.html'),
+  path.join(__dirname, 'repo', 'index.html'),
+];
+const HTML_PATH = CANDIDATES.find(p => fs.existsSync(p));
+if (!HTML_PATH) throw new Error('找不到 index.html，已尝试: ' + CANDIDATES.join(' | '));
+const html = fs.readFileSync(HTML_PATH, 'utf8');
 
 // --- 1. 语法检查 ---
 const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(m => m[1]);
