@@ -2,6 +2,31 @@
 
 面向 INTCO 系 Google Ads MCC（5 个广告账户）的日常运营分析工作台。
 
+## 数据来源与刷新
+
+内置数据由 `refresh_real_data.py` 从 Google Ads API 直接拉取，覆盖 MCC 下全部 5 个
+ENABLED 账户、近 400 天、campaign × date × device 粒度：
+
+| 账户 ID | Google Ads 账户名 |
+| --- | --- |
+| 206-869-2080 | BasicMedical_EN_20251229 |
+| 446-941-0060 | Intco_Gloves_EN_20240222 |
+| 852-988-1574 | Intco_Medical_EN_20251031 |
+| 432-584-4223 | Intco_Wheelchair_EN_20240123 |
+| 692-149-5146 | Intco_Healthcare_EN_20240222 |
+
+```bash
+python refresh_real_data.py     # 拉取最新数据，生成 REAL_DATA + 账户元信息
+python patch_page.py            # 注入 index.html（同时修复数据层逻辑）
+node smoke.js                   # 冒烟测试
+```
+
+数据口径要点：
+- `daysAgo` 按**真实日历差**计算，不能用"有数据日期的排序索引"（会整体错位）
+- 花费以 `cost_micros` 整数存储，加载时 `/1e6`，避免逐行四舍五入累积误差
+- 账户货币为 **CNY**，页面金额单位即 ¥
+- 页面徽标会显示数据截止日；超过 3 天未刷新会提示"数据已滞后"
+
 ## 在线访问
 
 - GitHub Pages：<https://bigshawnmuscle.github.io/workbuddy-GoogleADs/>（开启 Pages 后自动生效）

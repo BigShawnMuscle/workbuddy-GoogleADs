@@ -1397,7 +1397,11 @@ function renderAll(){
   var impOn=hasImported(acc);
   if(impOn){db.className='badge bd-live';db.textContent='真实数据·导入'}
   else if(S.apiLive){db.className='badge bd-live';db.textContent='实时在线'}
-  else if(!demo){db.className='badge bd-live';db.textContent='真实数据 · 截至 '+REAL_DATA_END}
+  else if(!demo){
+    var stale=Math.round((today0()-new Date(REAL_DATA_END+'T00:00:00'))/864e5);
+    if(stale>3){db.className='badge bd-demo';db.textContent='数据已滞后 '+stale+' 天（截至 '+REAL_DATA_END+'）'}
+    else{db.className='badge bd-live';db.textContent='真实数据 · 截至 '+REAL_DATA_END}
+  }
   else if(S.demoOff[acc.id]){db.className='badge bd-off';db.textContent='示例已清空'}
   else{db.className='badge bd-demo';db.textContent='示例数据'}
   var tag=impOn?'':'（示例）';
