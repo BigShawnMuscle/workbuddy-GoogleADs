@@ -1,7 +1,16 @@
 /* 运行时冒烟：用最小 DOM 桩执行整段页面脚本，捕获运行时异常并抽查渲染结果 */
 const fs = require('fs');
 const vm = require('vm');
-const html = fs.readFileSync('repo/index.html', 'utf8');
+const path = require('path');
+const CANDIDATES = [
+  path.join(__dirname, 'index.html'),
+  path.join(__dirname, '..', 'index.html'),
+  path.join(__dirname, 'repo', 'index.html'),
+  'repo/index.html',
+];
+const HTML_PATH = CANDIDATES.find(p => fs.existsSync(p));
+if (!HTML_PATH) throw new Error('找不到 index.html，已尝试: ' + CANDIDATES.join(' | '));
+const html = fs.readFileSync(HTML_PATH, 'utf8');
 const code = html.match(/<script\b[^>]*>([\s\S]*?)<\/script>/i)[1];
 
 const store = {};
