@@ -140,5 +140,38 @@ for (const a of ctx.ACCOUNTS) {
     + '广告 ' + cnt('adTbl').padEnd(10) + '落地页 ' + cnt('lpTbl'));
 }
 
+// HubSpot 转化漏斗 / 线索质量 / 广告系列归因
+console.log('\nHubSpot 接入渲染（近 30 天 / 90 天）：');
+for (const rg of [30, 90]) {
+  ctx.S.account = 'all'; ctx.S.range = rg;
+  ctx.S.filters = { campaign: '', ctype: '', market: '', adgroup: '', device: '', action: '', brand: '', category: '' };
+  try {
+    ctx.renderAll();
+  } catch (e) {
+    errors.push('HubSpot renderAll r' + rg + ': ' + e.message);
+    console.log('  近 %d 天 渲染失败: %s', rg, e.message);
+    continue;
+  }
+  const fb = created['funnelBox'] ? created['funnelBox']._html : '';
+  const rows = (fb.match(/<tr>/g) || []).length;
+  const nums = (fb.replace(/<[^>]+>/g, ' ').match(/\d[\d,\.]*%?/g) || []).slice(0, 24).join(' ');
+  console.log('  近 %d 天 漏斗: %s', rg, (/没有|暂无|未同步/.test(fb) ? '空态' : rows + ' 段') + ' | ' + nums);
+  const dg = created['funnelDiag']
+    ? created['funnelDiag']._html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 320) : '';
+  console.log('         诊断: %s', dg || '(空)');
+
+  const hs = created['hsTbl'] ? created['hsTbl']._html : '';
+  console.log('         HubSpot 表: %d 行 | 标记=%s', (hs.match(/<tr>/g) || []).length,
+    created['hsDemoTag'] ? created['hsDemoTag']._text : '');
+
+  const hc = created['hsCampTbl'] ? created['hsCampTbl']._html : '';
+  console.log('         系列归因表: %d 行 | 标记=%s', (hc.match(/<tr>/g) || []).length,
+    created['hsCampTag'] ? created['hsCampTag']._text : '');
+  if (rg === 30) {
+    const head = hc.replace(/<[^>]+>/g, '|').replace(/\|+/g, ' | ').replace(/\s+/g, ' ').trim().slice(0, 300);
+    console.log('         归因表内容: %s', head || '(空)');
+  }
+}
+
 console.log('\n结论: %s', errors.length ? '存在问题 ✗\n  ' + errors.join('\n  ') : '冒烟通过 ✓');
 process.exit(errors.length ? 1 : 0);

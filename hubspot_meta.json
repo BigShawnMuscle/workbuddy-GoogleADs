@@ -1,0 +1,191 @@
+{
+  "epoch": "2026-09-15",
+  "data_end": "2026-09-14",
+  "days": 180,
+  "cohort_contacts": 2958,
+  "funnel": {
+    "7": {
+      "v": 24,
+      "c": 6,
+      "l": 5,
+      "m": 0,
+      "s": 0,
+      "n": 24
+    },
+    "30": {
+      "v": 132,
+      "c": 42,
+      "l": 37,
+      "m": 0,
+      "s": 0,
+      "n": 132
+    },
+    "90": {
+      "v": 323,
+      "c": 132,
+      "l": 111,
+      "m": 1,
+      "s": 0,
+      "n": 324
+    },
+    "180": {
+      "v": 1084,
+      "c": 603,
+      "l": 436,
+      "m": 36,
+      "s": 6,
+      "n": 1085
+    }
+  },
+  "sources": {
+    "付费广告（聚合）": {
+      "source": "付费广告（聚合）",
+      "total": 10149,
+      "lead": 1870,
+      "pre": 2157,
+      "mql": 417,
+      "sql": 21,
+      "l2m": 10.4,
+      "m2s": 5.0,
+      "ts": "2026-09-15 15:28"
+    },
+    "付费搜索 PAID_SEARCH": {
+      "source": "付费搜索 PAID_SEARCH",
+      "total": 2958,
+      "lead": 658,
+      "pre": 696,
+      "mql": 155,
+      "sql": 13,
+      "l2m": 11.4,
+      "m2s": 8.4,
+      "ts": "2026-09-15 15:28"
+    },
+    "付费社媒 PAID_SOCIAL": {
+      "source": "付费社媒 PAID_SOCIAL",
+      "total": 7191,
+      "lead": 1212,
+      "pre": 1461,
+      "mql": 262,
+      "sql": 8,
+      "l2m": 9.8,
+      "m2s": 3.1,
+      "ts": "2026-09-15 15:28"
+    },
+    "线下导入 OFFLINE": {
+      "source": "线下导入 OFFLINE",
+      "total": 22881,
+      "lead": 5387,
+      "pre": 1879,
+      "mql": 6303,
+      "sql": 354,
+      "l2m": 86.7,
+      "m2s": 5.6,
+      "ts": "2026-09-15 15:29"
+    },
+    "自然搜索 ORGANIC_SEARCH": {
+      "source": "自然搜索 ORGANIC_SEARCH",
+      "total": 1215,
+      "lead": 213,
+      "pre": 453,
+      "mql": 135,
+      "sql": 10,
+      "l2m": 20.3,
+      "m2s": 7.4,
+      "ts": "2026-09-15 15:29"
+    },
+    "直接流量 DIRECT_TRAFFIC": {
+      "source": "直接流量 DIRECT_TRAFFIC",
+      "total": 1443,
+      "lead": 200,
+      "pre": 515,
+      "mql": 102,
+      "sql": 6,
+      "l2m": 14.3,
+      "m2s": 5.9,
+      "ts": "2026-09-15 15:29"
+    },
+    "推荐流量 REFERRALS": {
+      "source": "推荐流量 REFERRALS",
+      "total": 76,
+      "lead": 9,
+      "pre": 33,
+      "mql": 1,
+      "sql": 0,
+      "l2m": 2.4,
+      "m2s": 0.0,
+      "ts": "2026-09-15 15:29"
+    }
+  },
+  "deals": {
+    "total": 1,
+    "by_stage": {
+      "appointmentscheduled": 1
+    },
+    "won": {
+      "count": 0.0,
+      "amount": 0.0
+    }
+  },
+  "top_campaigns": [
+    {
+      "n": "gloves_brand",
+      "lead": 49,
+      "mql": 5,
+      "sql": 0
+    },
+    {
+      "n": "丁腈手套-北美",
+      "lead": 47,
+      "mql": 3,
+      "sql": 0
+    },
+    {
+      "n": "Auto-tagged PPC",
+      "lead": 41,
+      "mql": 5,
+      "sql": 1
+    },
+    {
+      "n": "gloves_eur",
+      "lead": 28,
+      "mql": 2,
+      "sql": 1
+    },
+    {
+      "n": "intco_medical_pe_gloves",
+      "lead": 22,
+      "mql": 0,
+      "sql": 0
+    },
+    {
+      "n": "gloves_crm",
+      "lead": 21,
+      "mql": 3,
+      "sql": 1
+    },
+    {
+      "n": "gloves_africa",
+      "lead": 20,
+      "mql": 1,
+      "sql": 0
+    },
+    {
+      "n": "gloves_middleeast",
+      "lead": 16,
+      "mql": 3,
+      "sql": 1
+    },
+    {
+      "n": "power_wheelchair_usa",
+      "lead": 15,
+      "mql": 0,
+      "sql": 0
+    },
+    {
+      "n": "intco_medical_non-woven",
+      "lead": 15,
+      "mql": 2,
+      "sql": 0
+    }
+  ]
+}
