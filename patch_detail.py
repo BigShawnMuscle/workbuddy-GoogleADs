@@ -35,13 +35,20 @@ j = html.index("\n", i)
 html = html[: j + 1] + detail_js + "\n" + html[j + 1:]
 
 
-def sub1(old, new, label):
-    """严格替换一次，失败即报错，避免静默改坏。"""
+def sub1(old, new, label, required=True):
+    """幂等替换：old 出现 1 次则替换；old 缺失但 new 已存在则跳过；
+    都不匹配时 required 则报错，否则警告跳过（页面已被更新的改造取代）。"""
     global html
+    if new in html:
+        print("[skip] %s：已是新版" % label)
+        return
     n = html.count(old)
-    if n != 1:
+    if n == 1:
+        html = html.replace(old, new, 1)
+    elif required:
         raise SystemExit("[失败] %s：锚点出现 %d 次（应为 1 次）" % (label, n))
-    html = html.replace(old, new, 1)
+    else:
+        print("[warn] %s：锚点未匹配且新版未检出，跳过（页面代码可能已被更新版本取代）" % label)
 
 
 # ---------- 2. realData 挂载 detail ----------
@@ -154,9 +161,12 @@ function applyDetail(data,range){
 }
 
 """
-sub1("/* ================= 实时 API 拉取（可选，填 REAL_API_URL 后生效） ================= */",
-     DETAIL_FUNCS.lstrip("\n") + "/* ================= 实时 API 拉取（可选，填 REAL_API_URL 后生效） ================= */",
-     "插入明细聚合函数")
+if "function applyDetail(data,range)" in html:
+    print("[skip] 明细聚合函数已存在，不重复插入")
+else:
+    sub1("/* ================= 实时 API 拉取（可选，填 REAL_API_URL 后生效） ================= */",
+         DETAIL_FUNCS.lstrip("\n") + "/* ================= 实时 API 拉取（可选，填 REAL_API_URL 后生效） ================= */",
+         "插入明细聚合函数")
 
 # ---------- 4. renderAll 调用 applyDetail ----------
 sub1("  var acc=accById(S.account),data=ds(acc),f=S.filters;\n  renderFilterOptions(data);",
@@ -226,14 +236,14 @@ sub1("""function renderFunnel(rows,data){
     return;
   }
   var rates=data.funnelRates,stages=[clicks];""",
-     "漏斗改用真实转化动作")
+     "漏斗改用真实转化动作", required=False)
 
 # ---------- 10. svgFunnel 支持自定义阶段名 ----------
 sub1("function svgFunnel(values,rates,weakIdx){",
-     "function svgFunnel(values,rates,weakIdx,names){", "svgFunnel 增加阶段名参数")
+     "function svgFunnel(values,rates,weakIdx,names){", "svgFunnel 增加阶段名参数", required=False)
 sub1("""font-weight="700">'+esc(FUNNEL_STAGES[i])+'</text>'""",
      """font-weight="700">'+esc(names&&names[i]?names[i]:FUNNEL_STAGES[i])+'</text>'""",
-     "svgFunnel 使用传入阶段名")
+     "svgFunnel 使用传入阶段名", required=False)
 
 # ---------- 10b. 真实数据为空时给明确提示（不再回退到示例模板） ----------
 EMPTY_TIP = ('<tbody><tr><td style="color:var(--ink2);padding:14px 8px">'
@@ -243,24 +253,24 @@ EMPTY_TIP = ('<tbody><tr><td style="color:var(--ink2);padding:14px 8px">'
 sub1("  if(kws.length>50)kws=kws.slice(0,50);\n  var medCvr=0.03;",
      "  if(kws.length>50)kws=kws.slice(0,50);\n"
      "  if(!kws.length){$('kwTbl').innerHTML='%s';return}\n  var medCvr=0.03;" % EMPTY_TIP,
-     "关键词空态")
+     "关键词空态", required=False)
 
 sub1("  var f=S.filters,sts=data.searchTerms;if(sts.length>50)sts=sts.slice(0,50);",
      "  var f=S.filters,sts=data.searchTerms;if(sts.length>50)sts=sts.slice(0,50);\n"
      "  if(!sts.length){$('stTbl').innerHTML='%s';return}" % EMPTY_TIP,
-     "搜索词空态")
+     "搜索词空态", required=False)
 
 sub1("      :(a.conv>0?Math.max(40,Math.round(140-a.ctr*800-a.cvr*900)):NaN)});",
      "      :(a.conv>0?Math.max(40,Math.round(140-a.ctr*800-a.cvr*900)):NaN)});\n"
      "  if(!ads.length){$('topAdTbl').innerHTML=$('botAdTbl').innerHTML=$('adTbl').innerHTML='%s';\n"
      "    $('assetTbl').innerHTML='%s';return}" % (EMPTY_TIP, EMPTY_TIP),
-     "广告空态")
+     "广告空态", required=False)
 
 sub1("  var lps=data.landing;\n  var lpReal=",
      "  var lps=data.landing;\n"
      "  if(!lps.length){$('lpTbl').innerHTML='%s';$('mmBox').innerHTML='';return}\n"
      "  var lpReal=" % EMPTY_TIP,
-     "落地页空态")
+     "落地页空态", required=False)
 
 # ---------- 11. 各模块徽标 ----------
 sub1("""  var tag=impOn?'':'（示例）';
@@ -271,7 +281,7 @@ sub1("""  var tag=impOn?'':'（示例）';
   $('stDemoTag').textContent=mtag(rm&&rm.st);
   $('adDemoTag').textContent=mtag(rm&&rm.ad);
   $('lpDemoTag').textContent=mtag(rm&&rm.lp);""",
-     "各模块徽标区分真实/示例")
+     "各模块徽标区分真实/示例", required=False)
 
 open(PAGE, "w", encoding="utf-8").write(html)
 print("已注入 REAL_DETAIL 并完成页面改造：%s（%.0f KB）" % (PAGE, len(html.encode('utf-8')) / 1024.0))

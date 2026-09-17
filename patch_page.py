@@ -58,14 +58,17 @@ print("[ok] REAL_EPOCH=%s  REAL_DATA_END=%s" % (EPOCH, DATA_END))
 # ---------- 3b. 花费以 micros 整数存储，加载时换算，避免逐行四舍五入误差 ----------
 old_rows = "for(var i=0;i<rd.r.length;i++){var r=rd.r[i];rows[i]=[r[0]+shift,r[1],r[2],r[3],r[4],r[5],r[6],r[7],r[8]];}"
 new_rows = "for(var i=0;i<rd.r.length;i++){var r=rd.r[i];rows[i]=[r[0]+shift,r[1],r[2],r[3],r[4],r[5],r[6],r[7]/1e6,r[8]];}"
-assert old_rows in html, "realData 行构建未匹配"
-html = html.replace(old_rows, new_rows, 1)
-html = html.replace("if(oldR)for(var k=0;k<oldR.length;k++)curSpend+=oldR[k][7]||0;",
-                    "if(oldR)for(var k=0;k<oldR.length;k++)curSpend+=(oldR[k][7]||0)/1e6;", 1)
-html = html.replace(
-    "/* ================= 内置真实数据（rows=[距epoch天数,系列,组,设备,动作,展示,点击,花费,转化]） ================= */",
-    "/* ================= 内置真实数据（rows=[距epoch天数,系列,组,设备,动作,展示,点击,花费(micros),转化]，加载时 /1e6 换算） ================= */", 1)
-print("[ok] 花费改用 micros 整数，零精度损失")
+if old_rows in html:  # 首次改造；后续运行页面已是 micros 版本
+    html = html.replace(old_rows, new_rows, 1)
+    html = html.replace("if(oldR)for(var k=0;k<oldR.length;k++)curSpend+=oldR[k][7]||0;",
+                        "if(oldR)for(var k=0;k<oldR.length;k++)curSpend+=(oldR[k][7]||0)/1e6;", 1)
+    html = html.replace(
+        "/* ================= 内置真实数据（rows=[距epoch天数,系列,组,设备,动作,展示,点击,花费,转化]） ================= */",
+        "/* ================= 内置真实数据（rows=[距epoch天数,系列,组,设备,动作,展示,点击,花费(micros),转化]，加载时 /1e6 换算） ================= */", 1)
+    print("[ok] 花费改用 micros 整数，零精度损失")
+else:
+    assert new_rows in html, "realData 行构建既非旧版也非 micros 版"
+    print("[skip] 花费已是 micros 整数存储")
 
 # ---------- 4. 设备维度补齐 ----------
 html = html.replace("var DEVICES=['Desktop','Mobile','Tablet'];",
@@ -152,24 +155,26 @@ new_camp = """function realCamp(x,cat){
     t='Search';
     if(/pmax/i.test(n))t='PMax';else if(/demand/i.test(n))t='Demand Gen';else if(/video/i.test(n))t='Video';
   }"""
-assert old_camp in html, "realCamp 头部未匹配"
-html = html.replace(old_camp, new_camp, 1)
-html = html.replace(
-    "return {name:n,type:t,market:m,brand:/brand/i.test(n)?'Brand':'Non-brand',cat:'—',role:'real'};",
-    "return {name:n,type:t,market:m,brand:/brand/i.test(n)?'Brand':'Non-brand',cat:cat||'—',role:'real'};", 1)
-print("[ok] realCamp 支持真实渠道类型与分类")
+if old_camp in html:  # 首次改造；后续运行页面已是新版
+    html = html.replace(old_camp, new_camp, 1)
+    html = html.replace(
+        "return {name:n,type:t,market:m,brand:/brand/i.test(n)?'Brand':'Non-brand',cat:'—',role:'real'};",
+        "return {name:n,type:t,market:m,brand:/brand/i.test(n)?'Brand':'Non-brand',cat:cat||'—',role:'real'};", 1)
+    print("[ok] realCamp 支持真实渠道类型与分类")
+else:
+    print("[skip] realCamp 已支持渠道类型与分类")
 
 # ---------- 7. realData：campaigns 用真实类型；带出 meta ----------
 old_rd = "campaigns:rd.c.map(realCamp),actions:ACTIONS,devices:DEVICES,"
 new_rd = "campaigns:rd.c.map(function(x){return realCamp(x,rd.meta&&rd.meta.cat)}),actions:ACTIONS,devices:DEVICES,"
-assert old_rd in html
-html = html.replace(old_rd, new_rd, 1)
+if old_rd in html:
+    html = html.replace(old_rd, new_rd, 1)
 
 old_tail = "landing:base.landing,mm:base.mm,funnelRates:base.funnelRates,real:true,realEpoch:REAL_EPOCH}};"
 new_tail = ("landing:base.landing,mm:base.mm,funnelRates:base.funnelRates,real:true,"
             "realEpoch:REAL_EPOCH,realEnd:REAL_DATA_END,meta:rd.meta||null}};")
-assert old_tail in html
-html = html.replace(old_tail, new_tail, 1)
+if old_tail in html:
+    html = html.replace(old_tail, new_tail, 1)
 print("[ok] realData 带入 meta / realEnd")
 
 # ---------- 8. 徽标显示数据截止日，便于与后台核对 ----------
@@ -179,8 +184,8 @@ new_badge = """else if(!demo){
     if(stale>3){db.className='badge bd-demo';db.textContent='数据已滞后 '+stale+' 天（截至 '+REAL_DATA_END+'）'}
     else{db.className='badge bd-live';db.textContent='真实数据 · 截至 '+REAL_DATA_END}
   }"""
-assert old_badge in html
-html = html.replace(old_badge, new_badge, 1)
+if old_badge in html:
+    html = html.replace(old_badge, new_badge, 1)
 print("[ok] 徽标显示数据截止日")
 
 # ---------- 9. 账户下拉附带 Google Ads 真实账户名，便于核对 ----------
