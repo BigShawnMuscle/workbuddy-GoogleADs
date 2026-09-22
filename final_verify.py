@@ -20,7 +20,8 @@ client = GoogleAdsClient(credentials=creds, developer_token=DEV_TOKEN,
                          login_customer_id=LOGIN_CID, use_proto_plus=True)
 svc = client.get_service("GoogleAdsService")
 q = """
-    SELECT customer.id, metrics.impressions, metrics.clicks,
+    SELECT customer.id, segments.date, segments.device,
+           metrics.impressions, metrics.clicks,
            metrics.cost_micros, metrics.conversions
     FROM campaign
     WHERE segments.date BETWEEN '%s' AND '%s'
