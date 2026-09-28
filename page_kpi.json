@@ -2,33 +2,33 @@
  "basic": {
   "name": "BasicMedical_EN_20251229",
   "cid": "2068692080",
-  "impr": 208668,
-  "clicks": 8277,
-  "spend": 17142.19,
+  "impr": 228891,
+  "clicks": 8932,
+  "spend": 17731.22,
   "conv": 2,
-  "rows": 278,
+  "rows": 281,
   "camps": 9,
   "cur": "CNY"
  },
  "gloves": {
   "name": "Intco_Gloves_EN_20240222",
   "cid": "4469410060",
-  "impr": 318535,
-  "clicks": 7651,
-  "spend": 92774.28,
-  "conv": 183,
-  "rows": 803,
+  "impr": 309295,
+  "clicks": 7266,
+  "spend": 91965.1,
+  "conv": 187,
+  "rows": 790,
   "camps": 33,
   "cur": "CNY"
  },
  "medical": {
   "name": "Intco_Medical_EN_20251031",
   "cid": "8529881574",
-  "impr": 231029,
-  "clicks": 4861,
-  "spend": 44322.42,
-  "conv": 19,
-  "rows": 528,
+  "impr": 441639,
+  "clicks": 6364,
+  "spend": 47342.78,
+  "conv": 18,
+  "rows": 542,
   "camps": 10,
   "cur": "CNY"
  },
@@ -51,7 +51,7 @@
   "spend": 0,
   "conv": 0,
   "rows": 0,
-  "camps": 14,
+  "camps": 13,
   "cur": "CNY"
  }
 }
