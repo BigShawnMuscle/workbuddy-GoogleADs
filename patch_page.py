@@ -55,6 +55,25 @@ else:
                         "var REAL_EPOCH='%s';\nvar REAL_DATA_END='%s';" % (EPOCH, DATA_END), 1)
 print("[ok] REAL_EPOCH=%s  REAL_DATA_END=%s" % (EPOCH, DATA_END))
 
+# ---------- 3c. 账户全量系列清单（含已暂停 / 已结束 / 窗口内无投放），与后台「广告系列」列表对齐 ----------
+inv = {}
+for a in meta["accounts"]:
+    inv[a["key"]] = a.get("inv", [])
+inv_js = json.dumps(inv, ensure_ascii=False, separators=(",", ":"))
+block = "var REAL_CAMPS=%s;" % inv_js
+if "var REAL_CAMPS=" in html:
+    st = html.index("var REAL_CAMPS=")
+    e = html.index("\n", st)
+    html = html[:st] + block + html[e:]
+    print("[ok] 更新 REAL_CAMPS（%d 账户，共 %d 个系列）"
+          % (len(inv), sum(len(v) for v in inv.values())))
+elif "var REAL_API_URL=" in html:
+    html = html.replace("var REAL_API_URL=", block + "\nvar REAL_API_URL=", 1)
+    print("[ok] 注入 REAL_CAMPS（%d 账户，共 %d 个系列）"
+          % (len(inv), sum(len(v) for v in inv.values())))
+else:
+    print("[warn] REAL_CAMPS 注入锚点未匹配")
+
 # ---------- 3b. 花费以 micros 整数存储，加载时换算，避免逐行四舍五入误差 ----------
 old_rows = "for(var i=0;i<rd.r.length;i++){var r=rd.r[i];rows[i]=[r[0]+shift,r[1],r[2],r[3],r[4],r[5],r[6],r[7],r[8]];}"
 new_rows = "for(var i=0;i<rd.r.length;i++){var r=rd.r[i];rows[i]=[r[0]+shift,r[1],r[2],r[3],r[4],r[5],r[6],r[7]/1e6,r[8]];}"

@@ -12,8 +12,8 @@ DEV_TOKEN, LOGIN_CID = "NbHT11svYClUr7AAjj9eWQ", "8021601652"
 page = json.load(open(os.path.join(WS, "page_kpi.json"), encoding="utf-8"))
 today = datetime.date.today()
 # 页面窗口 = daysAgo 0..29 → 今天往前 29 天的数据（day0=今天无数据）
-end = today - datetime.timedelta(days=1)
-start = today - datetime.timedelta(days=29)
+end = today - datetime.timedelta(days=1)      # 数据截止日
+start = today - datetime.timedelta(days=30)   # 数据截止日往前 30 天（与页面新窗口口径一致）
 
 creds, _ = google.auth.default(scopes=["https://www.googleapis.com/auth/adwords"])
 client = GoogleAdsClient(credentials=creds, developer_token=DEV_TOKEN,

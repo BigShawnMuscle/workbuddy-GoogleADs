@@ -55,7 +55,8 @@ for (const a of ctx.ACCOUNTS) {
   // 页面视角：窗口 daysAgo ∈ [shift+0, shift+29]，而 row[0] 已含 shift
   for (const r of rd.r) {
     const ago = r[0] + shift;
-    if (ago < 0 || ago > 29) continue;          // 近 30 天
+    const w0 = shift + 1;                       // ★ 窗口终点 = 数据截止日（与页面 dEndAgo() 一致）
+    if (ago < w0 || ago > w0 + 29) continue;    // 近 30 天（数据截止日往前 30 天）
     impr += r[5]; clicks += r[6]; spend += r[7] / 1e6; conv += r[8]; n++;
   }
   out[a.id] = { name: a.gname || a.name, cid: a.cid.replace(/-/g, ''), impr, clicks, spend: +spend.toFixed(2), conv: +conv.toFixed(2), rows: n,

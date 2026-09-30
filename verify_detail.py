@@ -100,10 +100,10 @@ def main():
     svc = client.get_service("GoogleAdsService")
 
     today = datetime.date.today()
-    end = today - datetime.timedelta(days=1)
-    # 页面窗口：daysAgo 0..rng-1，daysAgo d 对应日期 = today - d；
-    # daysAgo 0 是基准日（无数据），实际数据落在 [today-rng+1, today-1]
-    start = today - datetime.timedelta(days=rng - 1)
+    end = today - datetime.timedelta(days=1)      # 数据截止日
+    # 页面窗口：daysAgo ∈ [w0, w0+rng-1]，w0 = 数据截止日距今天数；
+    # 即 [today-rng, today-1]（数据截止日往前 rng 天）
+    start = today - datetime.timedelta(days=rng)
     s, e = start.isoformat(), end.isoformat()
     print("对账窗口：%s ~ %s（%d 天）\n" % (s, e, rng))
 

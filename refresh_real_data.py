@@ -46,6 +46,24 @@ CHANNEL_MAP = {
 DEVICE_MAP = {"DESKTOP": 0, "MOBILE": 1, "TABLET": 2, "CONNECTED_TV": 3, "OTHER": 4, "UNSPECIFIED": 4}
 
 
+def dedupe_inv(inv):
+    """同名系列（后台确实存在重名，如医疗账户两组 PE_Gloves）按名字合并：
+    状态取「最活跃」的一个，预算取最大，并记录重名数量。"""
+    order = {"ENABLED": 3, "PAUSED": 2, "REMOVED": 1}
+    out = {}
+    for e in inv:
+        k = e["n"]
+        if k not in out:
+            out[k] = dict(e, dup=1)
+            continue
+        cur = out[k]
+        cur["dup"] += 1
+        if order.get(e["s"], 0) > order.get(cur["s"], 0):
+            cur["s"] = e["s"]
+        cur["b"] = max(cur["b"], e["b"])
+    return list(out.values())
+
+
 def main():
     credentials, _ = google.auth.default(scopes=["https://www.googleapis.com/auth/adwords"])
     client = GoogleAdsClient(credentials=credentials, developer_token=DEV_TOKEN,
@@ -115,6 +133,33 @@ def main():
         except GoogleAdsException as e:
             print("  [%s] 拉取失败: %s" % (key, e.failure.errors[0].message if e.failure.errors else e))
 
+        # --- 账户系列清单（无日期分段：含已暂停 / 已结束 / 窗口内无投放的系列，与后台列表一致）---
+        inv_q = """
+            SELECT campaign.name, campaign.status, campaign.advertising_channel_type,
+                   campaign.start_date_time, campaign.end_date_time,
+                   campaign_budget.amount_micros
+            FROM campaign
+            ORDER BY campaign.name
+        """
+        inventory = []
+        try:
+            for row in svc.search(customer_id=cid, query=inv_q):
+                c = row.campaign
+                end_dt = str(c.end_date_time or "")          # "0" 或 "" 表示无结束日期
+                end_date = end_dt[:10] if end_dt[:4].isdigit() and end_dt[:4] != "0000" else ""
+                inventory.append({
+                    "n": c.name,
+                    "s": c.status.name,
+                    "t": CHANNEL_MAP.get(c.advertising_channel_type.name,
+                                        c.advertising_channel_type.name),
+                    "b": int(row.campaign_budget.amount_micros),
+                    "st": str(c.start_date_time or "")[:10],
+                    "en": end_date,
+                })
+        except GoogleAdsException as e:
+            print("  [%s] 系列清单读取失败: %s"
+                  % (key, e.failure.errors[0].message if e.failure.errors else e))
+
         # 系列顺序按总花费降序（稳定、可复现）
         camps = sorted(camp_spend.keys(), key=lambda n: (-camp_spend[n], n))
         cidx = {n: i for i, n in enumerate(camps)}
@@ -139,7 +184,8 @@ def main():
         meta["accounts"].append({"key": key, "cid": cid, "name": acc_name,
                                  "label": label, "cur": currency, "status": status,
                                  "cat": cat, "rows": len(rows), "camps": len(camps),
-                                 "spend": round(tot_spend, 2), "clicks": tot_clk})
+                                 "spend": round(tot_spend, 2), "clicks": tot_clk,
+                                 "inv": dedupe_inv(inventory)})
 
     # ---- 输出 JS ----
     def js_arr(a):
