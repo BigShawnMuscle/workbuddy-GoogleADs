@@ -1,119 +1,119 @@
 {
-  "epoch": "2026-09-30",
-  "data_end": "2026-09-29",
+  "epoch": "2026-10-06",
+  "data_end": "2026-10-05",
   "days": 180,
-  "cohort_contacts": 3034,
+  "cohort_contacts": 3056,
   "funnel": {
     "7": {
-      "v": 25,
-      "c": 7,
-      "l": 7,
+      "v": 26,
+      "c": 19,
+      "l": 14,
       "m": 0,
       "s": 0,
-      "n": 25
+      "n": 26
     },
     "30": {
-      "v": 138,
-      "c": 53,
-      "l": 45,
+      "v": 139,
+      "c": 68,
+      "l": 55,
       "m": 0,
       "s": 0,
-      "n": 138
+      "n": 139
     },
     "90": {
-      "v": 361,
-      "c": 147,
-      "l": 126,
+      "v": 375,
+      "c": 159,
+      "l": 135,
       "m": 1,
       "s": 0,
-      "n": 362
+      "n": 376
     },
     "180": {
-      "v": 1038,
-      "c": 577,
-      "l": 427,
-      "m": 29,
+      "v": 990,
+      "c": 546,
+      "l": 406,
+      "m": 27,
       "s": 7,
-      "n": 1039
+      "n": 991
     }
   },
   "sources": {
     "付费广告（聚合）": {
       "source": "付费广告（聚合）",
-      "total": 10382,
-      "lead": 1904,
-      "pre": 2254,
+      "total": 10404,
+      "lead": 1892,
+      "pre": 2272,
       "mql": 417,
       "sql": 23,
       "l2m": 10.0,
       "m2s": 5.5,
-      "ts": "2026-09-30 14:16"
+      "ts": "2026-10-06 09:15"
     },
     "付费搜索 PAID_SEARCH": {
       "source": "付费搜索 PAID_SEARCH",
-      "total": 3034,
-      "lead": 684,
-      "pre": 738,
+      "total": 3056,
+      "lead": 687,
+      "pre": 752,
       "mql": 154,
       "sql": 15,
-      "l2m": 10.8,
+      "l2m": 10.7,
       "m2s": 9.7,
-      "ts": "2026-09-30 14:16"
+      "ts": "2026-10-06 09:15"
     },
     "付费社媒 PAID_SOCIAL": {
       "source": "付费社媒 PAID_SOCIAL",
       "total": 7348,
-      "lead": 1220,
-      "pre": 1516,
+      "lead": 1205,
+      "pre": 1520,
       "mql": 263,
       "sql": 8,
-      "l2m": 9.6,
+      "l2m": 9.7,
       "m2s": 3.0,
-      "ts": "2026-09-30 14:16"
+      "ts": "2026-10-06 09:15"
     },
     "线下导入 OFFLINE": {
       "source": "线下导入 OFFLINE",
-      "total": 23214,
-      "lead": 5525,
-      "pre": 2001,
-      "mql": 6318,
-      "sql": 356,
-      "l2m": 83.9,
+      "total": 23309,
+      "lead": 5588,
+      "pre": 2019,
+      "mql": 6320,
+      "sql": 357,
+      "l2m": 83.1,
       "m2s": 5.6,
-      "ts": "2026-09-30 14:16"
+      "ts": "2026-10-06 09:15"
     },
     "自然搜索 ORGANIC_SEARCH": {
       "source": "自然搜索 ORGANIC_SEARCH",
-      "total": 1259,
-      "lead": 229,
-      "pre": 476,
-      "mql": 136,
+      "total": 1279,
+      "lead": 234,
+      "pre": 486,
+      "mql": 137,
       "sql": 10,
-      "l2m": 19.3,
-      "m2s": 7.4,
-      "ts": "2026-09-30 14:17"
+      "l2m": 19.0,
+      "m2s": 7.3,
+      "ts": "2026-10-06 09:15"
     },
     "直接流量 DIRECT_TRAFFIC": {
       "source": "直接流量 DIRECT_TRAFFIC",
-      "total": 1514,
-      "lead": 209,
-      "pre": 561,
+      "total": 1537,
+      "lead": 213,
+      "pre": 570,
       "mql": 102,
       "sql": 6,
-      "l2m": 13.2,
+      "l2m": 13.0,
       "m2s": 5.9,
-      "ts": "2026-09-30 14:17"
+      "ts": "2026-10-06 09:15"
     },
     "推荐流量 REFERRALS": {
       "source": "推荐流量 REFERRALS",
-      "total": 78,
-      "lead": 9,
-      "pre": 35,
+      "total": 80,
+      "lead": 10,
+      "pre": 36,
       "mql": 1,
       "sql": 0,
-      "l2m": 2.3,
+      "l2m": 2.2,
       "m2s": 0.0,
-      "ts": "2026-09-30 14:17"
+      "ts": "2026-10-06 09:15"
     }
   },
   "deals": {
@@ -135,32 +135,26 @@
     },
     {
       "n": "gloves_brand",
-      "lead": 46,
+      "lead": 43,
       "mql": 3,
       "sql": 0
     },
     {
+      "n": "intco_medical_pe_gloves",
+      "lead": 29,
+      "mql": 0,
+      "sql": 0
+    },
+    {
       "n": "gloves_eur",
-      "lead": 28,
+      "lead": 27,
       "mql": 2,
       "sql": 1
     },
     {
       "n": "Auto-tagged PPC",
-      "lead": 28,
-      "mql": 2,
-      "sql": 1
-    },
-    {
-      "n": "intco_medical_pe_gloves",
-      "lead": 26,
-      "mql": 0,
-      "sql": 0
-    },
-    {
-      "n": "gloves_crm",
       "lead": 19,
-      "mql": 3,
+      "mql": 2,
       "sql": 1
     },
     {
@@ -170,22 +164,28 @@
       "sql": 0
     },
     {
-      "n": "gloves_middleeast",
-      "lead": 16,
-      "mql": 3,
-      "sql": 2
-    },
-    {
       "n": "intco_medical_non-woven",
-      "lead": 15,
+      "lead": 17,
       "mql": 2,
       "sql": 0
     },
     {
       "n": "nitrile-indonesia",
-      "lead": 15,
+      "lead": 17,
       "mql": 0,
       "sql": 0
+    },
+    {
+      "n": "gloves_crm",
+      "lead": 16,
+      "mql": 2,
+      "sql": 1
+    },
+    {
+      "n": "gloves_middleeast",
+      "lead": 15,
+      "mql": 3,
+      "sql": 2
     }
   ]
 }
