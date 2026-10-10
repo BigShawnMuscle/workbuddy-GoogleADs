@@ -1,16 +1,16 @@
 {
-  "epoch": "2026-10-09",
-  "data_end": "2026-10-08",
+  "epoch": "2026-10-10",
+  "data_end": "2026-10-09",
   "days": 180,
-  "cohort_contacts": 3064,
+  "cohort_contacts": 3065,
   "funnel": {
     "7": {
-      "v": 18,
-      "c": 11,
+      "v": 16,
+      "c": 8,
       "l": 7,
       "m": 0,
       "s": 0,
-      "n": 18
+      "n": 16
     },
     "30": {
       "v": 124,
@@ -21,88 +21,88 @@
       "n": 124
     },
     "90": {
-      "v": 371,
+      "v": 373,
       "c": 160,
-      "l": 135,
+      "l": 136,
       "m": 3,
       "s": 0,
-      "n": 372
+      "n": 374
     },
     "180": {
-      "v": 964,
-      "c": 528,
-      "l": 398,
-      "m": 27,
-      "s": 6,
-      "n": 965
+      "v": 953,
+      "c": 521,
+      "l": 392,
+      "m": 24,
+      "s": 5,
+      "n": 954
     }
   },
   "sources": {
     "付费广告（聚合）": {
       "source": "付费广告（聚合）",
-      "total": 10495,
-      "lead": 1905,
+      "total": 10504,
+      "lead": 1914,
       "pre": 2294,
       "mql": 419,
       "sql": 23,
       "l2m": 10.0,
       "m2s": 5.5,
-      "ts": "2026-10-09 18:34"
+      "ts": "2026-10-10 09:07"
     },
     "付费搜索 PAID_SEARCH": {
       "source": "付费搜索 PAID_SEARCH",
-      "total": 3064,
-      "lead": 688,
+      "total": 3065,
+      "lead": 689,
       "pre": 756,
       "mql": 156,
       "sql": 15,
       "l2m": 10.8,
       "m2s": 9.6,
-      "ts": "2026-10-09 18:34"
+      "ts": "2026-10-10 09:07"
     },
     "付费社媒 PAID_SOCIAL": {
       "source": "付费社媒 PAID_SOCIAL",
-      "total": 7431,
-      "lead": 1217,
+      "total": 7439,
+      "lead": 1225,
       "pre": 1538,
       "mql": 263,
       "sql": 8,
       "l2m": 9.5,
       "m2s": 3.0,
-      "ts": "2026-10-09 18:34"
+      "ts": "2026-10-10 09:07"
     },
     "线下导入 OFFLINE": {
       "source": "线下导入 OFFLINE",
-      "total": 23419,
-      "lead": 5624,
-      "pre": 2074,
+      "total": 23426,
+      "lead": 5630,
+      "pre": 2075,
       "mql": 6325,
       "sql": 358,
-      "l2m": 82.2,
+      "l2m": 82.1,
       "m2s": 5.7,
-      "ts": "2026-10-09 18:34"
+      "ts": "2026-10-10 09:07"
     },
     "自然搜索 ORGANIC_SEARCH": {
       "source": "自然搜索 ORGANIC_SEARCH",
-      "total": 1288,
-      "lead": 235,
+      "total": 1289,
+      "lead": 236,
       "pre": 493,
       "mql": 137,
       "sql": 10,
       "l2m": 18.8,
       "m2s": 7.3,
-      "ts": "2026-10-09 18:34"
+      "ts": "2026-10-10 09:07"
     },
     "直接流量 DIRECT_TRAFFIC": {
       "source": "直接流量 DIRECT_TRAFFIC",
-      "total": 1549,
-      "lead": 212,
-      "pre": 577,
+      "total": 1551,
+      "lead": 213,
+      "pre": 578,
       "mql": 102,
       "sql": 6,
       "l2m": 12.9,
       "m2s": 5.9,
-      "ts": "2026-10-09 18:34"
+      "ts": "2026-10-10 09:07"
     },
     "推荐流量 REFERRALS": {
       "source": "推荐流量 REFERRALS",
@@ -113,7 +113,7 @@
       "sql": 0,
       "l2m": 2.2,
       "m2s": 0.0,
-      "ts": "2026-10-09 18:34"
+      "ts": "2026-10-10 09:07"
     }
   },
   "deals": {
@@ -129,13 +129,13 @@
   "top_campaigns": [
     {
       "n": "丁腈手套-北美",
-      "lead": 48,
+      "lead": 46,
       "mql": 3,
       "sql": 0
     },
     {
       "n": "gloves_brand",
-      "lead": 41,
+      "lead": 39,
       "mql": 3,
       "sql": 0
     },
@@ -152,13 +152,13 @@
       "sql": 1
     },
     {
-      "n": "gloves_africa",
-      "lead": 18,
+      "n": "nitrile-indonesia",
+      "lead": 19,
       "mql": 0,
       "sql": 0
     },
     {
-      "n": "nitrile-indonesia",
+      "n": "gloves_africa",
       "lead": 18,
       "mql": 0,
       "sql": 0
@@ -182,10 +182,10 @@
       "sql": 1
     },
     {
-      "n": "gloves_middleeast",
-      "lead": 15,
-      "mql": 3,
-      "sql": 2
+      "n": "gloves_tender_pmax",
+      "lead": 14,
+      "mql": 1,
+      "sql": 1
     }
   ]
 }
