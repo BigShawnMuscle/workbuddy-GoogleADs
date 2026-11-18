@@ -13,22 +13,22 @@
  "gloves": {
   "name": "Intco_Gloves_EN_20240222",
   "cid": "4469410060",
-  "impr": 32565,
-  "clicks": 1178,
-  "spend": 17186.66,
-  "conv": 45,
-  "rows": 197,
-  "camps": 30,
+  "impr": 230899,
+  "clicks": 3449,
+  "spend": 26363.26,
+  "conv": 39,
+  "rows": 224,
+  "camps": 29,
   "cur": "CNY"
  },
  "medical": {
   "name": "Intco_Medical_EN_20251031",
   "cid": "8529881574",
-  "impr": 740,
-  "clicks": 17,
-  "spend": 13.43,
+  "impr": 1027,
+  "clicks": 34,
+  "spend": 368.38,
   "conv": 0,
-  "rows": 31,
+  "rows": 45,
   "camps": 10,
   "cur": "CNY"
  },
@@ -40,7 +40,7 @@
   "spend": 0,
   "conv": 0,
   "rows": 0,
-  "camps": 35,
+  "camps": 34,
   "cur": "CNY"
  },
  "healthcare": {
@@ -51,7 +51,7 @@
   "spend": 0,
   "conv": 0,
   "rows": 0,
-  "camps": 12,
+  "camps": 11,
   "cur": "CNY"
  }
 }

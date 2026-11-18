@@ -1,119 +1,119 @@
 {
-  "epoch": "2026-11-14",
-  "data_end": "2026-11-13",
+  "epoch": "2026-11-18",
+  "data_end": "2026-11-17",
   "days": 180,
-  "cohort_contacts": 3088,
+  "cohort_contacts": 3095,
   "funnel": {
     "7": {
-      "v": 5,
-      "c": 1,
-      "l": 1,
-      "m": 0,
-      "s": 0,
-      "n": 5
-    },
-    "30": {
       "v": 12,
-      "c": 2,
-      "l": 2,
+      "c": 3,
+      "l": 3,
       "m": 0,
       "s": 0,
       "n": 12
     },
+    "30": {
+      "v": 13,
+      "c": 4,
+      "l": 4,
+      "m": 0,
+      "s": 0,
+      "n": 13
+    },
     "90": {
-      "v": 264,
-      "c": 106,
-      "l": 90,
+      "v": 247,
+      "c": 98,
+      "l": 82,
       "m": 2,
       "s": 0,
-      "n": 264
+      "n": 247
     },
     "180": {
-      "v": 656,
-      "c": 339,
-      "l": 264,
-      "m": 8,
-      "s": 2,
-      "n": 657
+      "v": 603,
+      "c": 305,
+      "l": 242,
+      "m": 5,
+      "s": 1,
+      "n": 604
     }
   },
   "sources": {
     "付费广告（聚合）": {
       "source": "付费广告（聚合）",
-      "total": 11082,
-      "lead": 1935,
-      "pre": 2527,
-      "mql": 427,
+      "total": 11174,
+      "lead": 1971,
+      "pre": 2553,
+      "mql": 431,
       "sql": 28,
-      "l2m": 9.6,
-      "m2s": 6.6,
-      "ts": "2026-11-14 19:07"
+      "l2m": 9.5,
+      "m2s": 6.5,
+      "ts": "2026-11-18 10:16"
     },
     "付费搜索 PAID_SEARCH": {
       "source": "付费搜索 PAID_SEARCH",
-      "total": 3088,
+      "total": 3095,
       "lead": 697,
-      "pre": 773,
+      "pre": 780,
       "mql": 154,
       "sql": 17,
-      "l2m": 10.5,
+      "l2m": 10.4,
       "m2s": 11.0,
-      "ts": "2026-11-14 19:07"
+      "ts": "2026-11-18 10:16"
     },
     "付费社媒 PAID_SOCIAL": {
       "source": "付费社媒 PAID_SOCIAL",
-      "total": 7994,
-      "lead": 1238,
-      "pre": 1754,
-      "mql": 273,
+      "total": 8079,
+      "lead": 1274,
+      "pre": 1773,
+      "mql": 277,
       "sql": 11,
       "l2m": 9.1,
       "m2s": 4.0,
-      "ts": "2026-11-14 19:07"
+      "ts": "2026-11-18 10:17"
     },
     "线下导入 OFFLINE": {
       "source": "线下导入 OFFLINE",
-      "total": 26721,
-      "lead": 6150,
-      "pre": 4069,
-      "mql": 6980,
-      "sql": 371,
-      "l2m": 68.3,
+      "total": 26827,
+      "lead": 6198,
+      "pre": 4102,
+      "mql": 6985,
+      "sql": 372,
+      "l2m": 67.8,
       "m2s": 5.3,
-      "ts": "2026-11-14 19:07"
+      "ts": "2026-11-18 10:17"
     },
     "自然搜索 ORGANIC_SEARCH": {
       "source": "自然搜索 ORGANIC_SEARCH",
-      "total": 1395,
-      "lead": 251,
-      "pre": 575,
+      "total": 1406,
+      "lead": 254,
+      "pre": 582,
       "mql": 140,
       "sql": 12,
-      "l2m": 16.9,
+      "l2m": 16.7,
       "m2s": 8.6,
-      "ts": "2026-11-14 19:08"
+      "ts": "2026-11-18 10:17"
     },
     "直接流量 DIRECT_TRAFFIC": {
       "source": "直接流量 DIRECT_TRAFFIC",
-      "total": 1626,
-      "lead": 218,
-      "pre": 633,
+      "total": 1640,
+      "lead": 228,
+      "pre": 637,
       "mql": 102,
       "sql": 7,
-      "l2m": 12.0,
+      "l2m": 11.8,
       "m2s": 6.9,
-      "ts": "2026-11-14 19:08"
+      "ts": "2026-11-18 10:18"
     },
     "推荐流量 REFERRALS": {
       "source": "推荐流量 REFERRALS",
-      "total": 90,
-      "lead": 10,
-      "pre": 44,
+      "total": 96,
+      "lead": 14,
+      "pre": 46,
       "mql": 2,
       "sql": 0,
-      "l2m": 3.7,
+      "l2m": 3.3,
       "m2s": 0.0,
-      "ts": "2026-11-14 19:08"
+      "ts": "2026-11-18 10:18"
     }
   },
   "deals": {
@@ -129,25 +129,25 @@
   "top_campaigns": [
     {
       "n": "丁腈手套-北美",
-      "lead": 29,
+      "lead": 26,
       "mql": 1,
       "sql": 0
     },
     {
       "n": "intco_medical_pe_gloves",
-      "lead": 26,
+      "lead": 24,
       "mql": 0,
       "sql": 0
     },
     {
       "n": "gloves_brand",
-      "lead": 25,
+      "lead": 22,
       "mql": 0,
       "sql": 0
     },
     {
       "n": "gloves_eur",
-      "lead": 21,
+      "lead": 19,
       "mql": 1,
       "sql": 1
     },
@@ -158,26 +158,26 @@
       "sql": 0
     },
     {
-      "n": "gloves_africa",
-      "lead": 15,
-      "mql": 0,
-      "sql": 0
-    },
-    {
-      "n": "intco_medical_non-woven",
-      "lead": 14,
-      "mql": 1,
-      "sql": 0
-    },
-    {
       "n": "medical gloves/小b端",
       "lead": 14,
       "mql": 0,
       "sql": 0
     },
     {
-      "n": "gloves_middleeast",
+      "n": "gloves_africa",
+      "lead": 13,
+      "mql": 0,
+      "sql": 0
+    },
+    {
+      "n": "intco_medical_non-woven",
       "lead": 11,
+      "mql": 1,
+      "sql": 0
+    },
+    {
+      "n": "gloves_middleeast",
+      "lead": 10,
       "mql": 0,
       "sql": 0
     },
