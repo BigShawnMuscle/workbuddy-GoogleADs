@@ -244,9 +244,12 @@ def main():
             continue
         e = camp.get(k)
         if not e:
-            e = camp[k] = {"n": name, "lead": 0, "mql": 0, "sql": 0}
+            e = camp[k] = {"n": name, "lead": 0, "pre": 0, "mql": 0, "sql": 0}
         if lv(x, STAGES_ABOVE_LEAD):
             e["lead"] += 1
+        # pre-leads：lifecycle = 自定义 pre-leads 阶段（有转化记录）的线索，按 drill-down 1 归因
+        if x["conv"] and x["stage"] == STAGE_PRE:
+            e["pre"] += 1
         if lv(x, STAGES_ABOVE_MQL):
             e["mql"] += 1
         if lv(x, STAGES_ABOVE_SQL):
@@ -311,7 +314,7 @@ def main():
     # ── 6. 输出 ───────────────────────────────────────────────────────────────
     # 显示名用原始取值（v["n"]），key 只用于合并同类变体
     camp_rows = sorted(
-        ({"n": v["n"], "lead": v["lead"], "mql": v["mql"], "sql": v["sql"]} for v in camp.values()),
+        ({"n": v["n"], "lead": v["lead"], "pre": v["pre"], "mql": v["mql"], "sql": v["sql"]} for v in camp.values()),
         key=lambda x: -x["lead"],
     )[:40]
 
