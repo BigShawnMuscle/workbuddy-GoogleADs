@@ -130,6 +130,7 @@
     {
       "n": "丁腈手套-北美",
       "lead": 26,
+      "pre": 25,
       "mql": 1,
       "sql": 0
     },
@@ -148,12 +149,21 @@
     {
       "n": "gloves_eur",
       "lead": 19,
+      "pre": 16,
       "mql": 1,
       "sql": 1
     },
     {
       "n": "nitrile-indonesia",
       "lead": 19,
+      "pre": 14,
+      "mql": 0,
+      "sql": 0
+    },
+    {
+      "n": "gloves_africa",
+      "lead": 14,
+      "pre": 13,
       "mql": 0,
       "sql": 0
     },
@@ -178,6 +188,7 @@
     {
       "n": "gloves_middleeast",
       "lead": 10,
+      "pre": 9,
       "mql": 0,
       "sql": 0
     },

@@ -415,10 +415,7 @@ footer{color:var(--ink3);font-size:12px;text-align:center;padding:26px 0 34px}
     <div class="desc" data-page-node-id="AmNcxsjBtZLWiyvH6eWtBp">先看设备（桌面 / 移动 / 平板），再看来源国家与语言，决定预算与出价调整方向。</div>
     <div class="subhead" data-page-node-id="6q6uQ8w7SmItGordg6deYV">按设备</div>
     <div class="tbl-wrap" data-page-node-id="CFRTBZmhqWYmYKZq6SstR5"><table class="tbl" id="devTbl" data-page-node-id="JSLnyB4TB3llEqLQwIwJq4"></table></div>
-    <div class="grid2" style="margin-top:14px" data-page-node-id="AelZMfgIpxTVdHbN9ulCcr">
-      <div data-page-node-id="axGz1Yfg0xsyZuQsLDtuAG"><div class="subhead" data-page-node-id="9QsuRQDe71Li3Jfb44vJmf">按国家 / 市场</div><div class="tbl-wrap" data-page-node-id="b1dCOfQp8WR0ZfEUaoV10T"><table class="tbl" id="mktTbl" data-page-node-id="9LENg55KnNyDNm5OFLSWb4"></table></div></div>
-      <div data-page-node-id="3aYmbGjoyPjLv3fy1aV9gM"><div class="subhead" data-page-node-id="NuBDkJvVu2qXyBveLEQoxj">语言分布（按花费）</div><div class="tbl-wrap" data-page-node-id="ShHNf1s7KZ1gt9ssw0MjdL"><table class="tbl" id="langTbl" data-page-node-id="Hja4wrAzy1GrYCAAobqqgt"></table></div></div>
-    </div>
+    <div class="subhead" data-page-node-id="9QsuRQDe71Li3Jfb44vJmf">按国家 / 地区</div><div class="tbl-wrap" data-page-node-id="b1dCOfQp8WR0ZfEUaoV10T"><table class="tbl" id="mktTbl" data-page-node-id="9LENg55KnNyDNm5OFLSWb4"></table></div>
   </div>
 
   <!-- Landing pages -->
@@ -437,12 +434,9 @@ footer{color:var(--ink3);font-size:12px;text-align:center;padding:26px 0 34px}
     <div class="funnelbox" id="funnelBox" data-page-node-id="11YJmWxVmjoqgeinITAH6O"></div>
     <div class="hintbox" id="funnelDiag" style="margin-top:12px" data-page-node-id="OHM1MOeoUvCX5vk4ngYg3O"></div>
     <div class="subhead" style="margin-top:20px" data-page-node-id="kf7gb539fbfZzJJQAw1CW0">HubSpot 线索质量（真实数据 · Portal 242572787）<span class="mininote" id="hsDemoTag" data-page-node-id="Z9z9ApLCsdNlASq8tPnGqC"></span></div>
-    <div class="desc" data-page-node-id="mBn9WJEtfIdBDAmOqRJb4A">按 HubSpot 原始来源聚合的 Lifecycle Stage 漏斗，与上方 Google Ads 点击漏斗拼接成完整链路；数据由 HubSpot Private App 直连 CRM v3 接口每日同步。</div>
+    <div class="desc" data-page-node-id="mBn9WJEtfIdBDAmOqRJb4A">仅保留 Google Ads（付费搜索 PAID_SEARCH）来源的 Lifecycle Stage 漏斗；Pre-Leads 与 MQL/SQL 已交叉融合进上方「广告系列表现」表。</div>
     <div class="tbl-wrap" data-page-node-id="Hx2KCvP8tAOQyXvoLEQmZ3"><table class="tbl" id="hsTbl" data-page-node-id="hlBumzyixiiymnpvzWaFJl"></table></div>
     <div class="hintbox" id="hsDiag" style="margin-top:12px" data-page-node-id="f8pFy7TZAxLMCAc7JgauIl"></div>
-    <div class="subhead" style="margin-top:20px">Google Ads 广告系列 → HubSpot 线索归因<span class="mininote" id="hsCampTag"></span></div>
-    <div class="desc">按 HubSpot 联系人携带的广告系列名与 Google Ads 广告系列归一化精确匹配；未匹配部分多为 UTM 自定义名称或自动标记流量，单独列出以免虚增。</div>
-    <div class="tbl-wrap"><table class="tbl" id="hsCampTbl"></table></div>
   </div>
 
   <!-- Optimization center -->
@@ -840,15 +834,41 @@ function realCamp(x,cat){
     t='Search';
     if(/pmax/i.test(n))t='PMax';else if(/demand/i.test(n))t='Demand Gen';else if(/video/i.test(n))t='Video';
   }
-  var m='全球';
-  if(/(澳新|AUS|ANZ)/i.test(n))m='大洋洲';
-  else if(/(南美|SouthAmerica|Peru|Brazil|Colombia|墨西哥|Mexico)/i.test(n))m='拉美';
-  else if(/(北美|美国|USA|NorthAmerica|加拿大|Canada|NA)/.test(n))m='北美';
-  else if(/(欧洲|Europe|UK|英国|France|Germany|Italy|Spain|Portugal|Belgium|Austria|西欧|中欧|Eur)/i.test(n))m='欧洲';
-  else if(/(中东|MiddleEast|SaudiArabia|Algeria)/i.test(n))m='中东';
-  else if(/(亚洲|Asia|India|Indonesia|Malaysia|Philippines|Japan|Korea|Pakistan|PHL|印度)/i.test(n))m='亚洲';
-  else if(/(非洲|Africa)/i.test(n))m='非洲';
+  /* 优先识别具体国家，识别不到再回退到大区 */
+  var m=countryOf(n);
+  if(!m){
+    if(/(澳新|AUS|ANZ)/i.test(n))m='大洋洲';
+    else if(/(南美|SouthAmerica|Peru|Brazil|Colombia|Mexico)/i.test(n))m='拉美';
+    else if(/(北美|USA|NorthAmerica|NA)/.test(n))m='北美';
+    else if(/(欧洲|Europe|UK|France|Germany|Italy|Spain|Portugal|Belgium|Austria|西欧|中欧|Eur)/i.test(n))m='欧洲';
+    else if(/(中东|MiddleEast|SaudiArabia|Algeria)/i.test(n))m='中东';
+    else if(/(亚洲|Asia|India|Indonesia|Malaysia|Philippines|Japan|Korea|Pakistan|PHL|印度)/i.test(n))m='亚洲';
+    else if(/(非洲|Africa)/i.test(n))m='非洲';
+    else m='全球';
+  }
   return {name:n,type:t,market:m,brand:/brand/i.test(n)?'Brand':'Non-brand',cat:cat||'—',role:'real'};
+}
+function countryOf(n){
+  var s=String(n||'');
+  if(/加拿大|Canada/i.test(s))return '加拿大';
+  if(/墨西哥|Mexico/i.test(s))return '墨西哥';
+  if(/英国|United Kingdom|UK|Britain/i.test(s))return '英国';
+  if(/美国|USA|United States|US\b/i.test(s))return '美国';
+  if(/印度尼西亚|Indonesia|印尼/i.test(s))return '印度尼西亚';
+  if(/菲律宾|Philippines|PHL/i.test(s))return '菲律宾';
+  if(/澳大利亚|Australia|AUS/i.test(s))return '澳大利亚';
+  if(/新西兰|New Zealand|NZ\b/i.test(s))return '新西兰';
+  if(/巴西|Brazil/i.test(s))return '巴西';
+  if(/德国|Germany/i.test(s))return '德国';
+  if(/法国|France/i.test(s))return '法国';
+  if(/日本|Japan/i.test(s))return '日本';
+  if(/韩国|Korea/i.test(s))return '韩国';
+  if(/沙特|SaudiArabia|沙特阿拉伯/i.test(s))return '沙特阿拉伯';
+  if(/越南|Vietnam/i.test(s))return '越南';
+  if(/泰国|Thailand/i.test(s))return '泰国';
+  if(/印度|India/i.test(s))return '印度';
+  if(/巴基斯坦|Pakistan/i.test(s))return '巴基斯坦';
+  return '';
 }
 var realCache={};
 function realData(acc,base){
@@ -929,10 +949,12 @@ function applyDetail(data,range){
      哪怕当前窗口内为空也要置空，否则休眠账户会显示示例模板数字 */
   if(d.kw){var a=detSort(detAgg(d.kw,shift,win));mod.kw=1;
     data.keywords=a.map(function(e){return {kw:d.kw.n[e.i],
-      match:(d.kw.m&&d.kw.m[e.i])||'—',impr:e.impr,clicks:e.clicks,
+      match:(d.kw.m&&d.kw.m[e.i])||'—',camp:(d.kw.c&&d.kw.c[e.i])||'',
+      impr:e.impr,clicks:e.clicks,
       spend:e.micros/1e6,conv:e.conv}})}
   if(d.st){var b=detSort(detAgg(d.st,shift,win));mod.st=1;
     data.searchTerms=b.map(function(e){return {term:d.st.n[e.i],
+      camp:(d.st.c&&d.st.c[e.i])||'',
       impr:e.impr,clicks:e.clicks,spend:e.micros/1e6,conv:e.conv}})}
   if(d.ad){var c=detSort(detAgg(d.ad,shift,win));mod.ad=1;
     data.ads=c.map(function(e){return {name:d.ad.n[e.i],
@@ -1320,19 +1342,36 @@ function campStatePill(st){
   return '<span class="pill '+cls+'">'+esc(st)+'</span>';
 }
 function renderCampTable(camps,totSpend,acc){
-  /* ★ 以账户真实系列清单为准：窗口内无投放的系列（已暂停 / 已结束 / 移除）也列出，
-     状态与日预算取自 Google Ads API，与后台「广告系列」列表一致 */
+  /* ★ 只展示「在投放中」的广告系列：状态 ENABLED 且未结束（含窗口内有实际投放数据的系列）。
+     已暂停 / 已结束 / 已移除的系列不再列出。 */
   var inv=(typeof REAL_CAMPS!=='undefined'&&REAL_CAMPS&&REAL_CAMPS[acc.id])?REAL_CAMPS[acc.id]:null;
   var invMap={};(inv||[]).forEach(function(v){invMap[v.n]=v});
+  /* 在投放判定：ENABLED 且（无结束日期 或 结束日期未到） */
+  function isActive(name){
+    var e=invMap[name];if(!e)return true; // 不在库存清单内（导入系列）：按有数据与否决定，由调用侧过滤
+    if(String(e.s)!=='ENABLED')return false;
+    if(e.en&&e.en<isoDate(today0()))return false;
+    return true;
+  }
   var list=camps.slice(),have={};
   camps.forEach(function(c){have[c.name]=1});
   if(inv)inv.forEach(function(v){
     if(have[v.n])return;
+    /* 仅补充「在投放」的库存系列（窗口内无投放数据但状态有效，也列为在投系列） */
+    if(!isActive(v.n))return;
     var rc=realCamp(v.n,(acc&&acc.cat)||'—');
     list.push({name:v.n,role:'inventory',type:v.t||rc.type,market:rc.market||'—',brand:rc.brand||'Non-brand',
       cat:rc.cat||'—',impr:0,clicks:0,spend:0,conv:0,idle:1,leadQ:'—'});
   });
-  var html=['<thead><tr><th>广告系列</th><th>状态</th><th class="num">预算/天</th><th class="num">花费</th><th class="num">花费占比</th><th class="num">点击</th><th class="num">CTR</th><th class="num">CPC</th><th class="num">转化</th><th class="num">CVR</th><th class="num">CPA</th><th>线索质量</th><th class="num" title="未接入收入 / 成交金额数据，无法计算 ROAS">ROAS</th></tr></thead><tbody>'];
+  /* 过滤：只保留在投放中的系列（库存清单内 ENABLED；清单外的导入系列保留窗口内有数据的） */
+  list=list.filter(function(c){
+    if(invMap[c.name])return isActive(c.name);
+    return c.spend>0||c.clicks>0||c.impr>0;
+  });
+  /* 按花费降序（在投放的系列里仍有主次） */
+  list.sort(function(a,b){return b.spend-a.spend});
+  var HM=hsCampMap();
+  var html=['<thead><tr><th>广告系列</th><th>状态</th><th class="num">预算/天</th><th class="num">花费</th><th class="num">花费占比</th><th class="num">点击</th><th class="num">CTR</th><th class="num">CPC</th><th class="num">转化</th><th class="num">Pre-Leads</th><th class="num">CVR</th><th class="num">CPA</th><th>线索质量</th><th class="num" title="未接入收入 / 成交金额数据，无法计算 ROAS">ROAS</th></tr></thead><tbody>'];
   list.forEach(function(c){
     var ctr=safeDiv(c.clicks,c.impr),cpc=safeDiv(c.spend,c.clicks),cvr=safeDiv(c.conv,c.clicks),cpa=safeDiv(c.spend,c.conv);
     var ps=totSpend?c.spend/totSpend:0;
@@ -1340,13 +1379,18 @@ function renderCampTable(camps,totSpend,acc){
     var st=campStateOf(c.name,invMap);
     var bud=invMap[c.name]?(invMap[c.name].b>0?money2(invMap[c.name].b/1e6)+'/天':'—'):'—';
     var sub=esc(c.type)+' · '+esc(c.market)+' · '+esc(c.brand)+(c.idle?' · 窗口内无投放':'');
+    /* Pre-Leads：来自 HubSpot 付费搜索线索交叉融合（lifecycle=pre-leads，按 drill-down 1 归因匹配广告系列名） */
+    var hsE=HM?HM[normCamp(c.name)]:null;
+    var pre=hsE?hsE.pre:0;
     html.push('<tr><td><b>'+esc(c.name)+'</b><div style="font-size:11px;color:var(--ink2)">'+sub+'</div></td>'+
      '<td>'+campStatePill(st)+'</td>'+
      '<td class="num">'+bud+'</td>'+
      '<td class="num"><b>'+money(c.spend)+'</b></td>'+
      '<td class="num"><span class="spendbar" style="width:'+bw+'px"></span>'+pct(ps,1)+'</td>'+
      '<td class="num">'+int(c.clicks)+'</td><td class="num">'+(c.impr?pct(ctr):'—')+'</td><td class="num">'+(isFinite(cpc)?money2(cpc):'—')+'</td>'+
-     '<td class="num">'+int(c.conv)+'</td><td class="num">'+(c.clicks?pct(cvr):'—')+'</td>'+
+     '<td class="num">'+int(c.conv)+'</td>'+
+     '<td class="num">'+(pre>0?'<b style="color:#8b5cf6">'+int(pre)+'</b>':'<span style="color:var(--ink2)">'+int(pre)+'</span>')+'</td>'+
+     '<td class="num">'+(c.clicks?pct(cvr):'—')+'</td>'+
      '<td class="num">'+(isFinite(cpa)?money(cpa):'—')+'</td>'+
      '<td>'+(c.leadQ&&c.leadQ!=='—'?'<span class="pill '+(c.leadQ==='高'?'p-best':c.leadQ==='低'?'p-poor':'p-maint')+'">'+c.leadQ+'</span>':'<span style="color:var(--ink2)">—</span>')+'</td>'+
      '<td class="num" style="color:var(--ink2)">—</td></tr>')});
@@ -1396,22 +1440,22 @@ function renderKeywords(data,avgCpa){
   if(kws.length>50)kws=kws.slice(0,50);
   if(!kws.length){$('kwTbl').innerHTML='<tbody><tr><td style="color:var(--ink2);padding:14px 8px">当前时间窗口内 Google Ads 没有该维度的真实数据（账户可能已停投，或该周期为纯 PMax / 展示广告投放）。</td></tr></tbody>';return}
   var medCvr=0.03;
-  var html=['<thead><tr><th>关键词</th><th>匹配类型</th><th class="num">花费</th><th class="num">点击</th><th class="num">CTR</th><th class="num">CPC</th><th class="num">转化</th><th class="num">CVR</th><th class="num">CPA</th><th>状态</th></tr></thead><tbody>'];
+  var html=['<thead><tr><th>关键词</th><th>所属广告系列</th><th>匹配类型</th><th class="num">花费</th><th class="num">点击</th><th class="num">CTR</th><th class="num">CPC</th><th class="num">转化</th><th class="num">CVR</th><th class="num">CPA</th><th>状态</th></tr></thead><tbody>'];
   kws.forEach(function(k){
     var ctr=safeDiv(k.clicks,k.impr),cpc=safeDiv(k.spend,k.clicks),cvr=safeDiv(k.conv,k.clicks),cpa=safeDiv(k.spend,k.conv);
     var st=kwStatus(k,avgCpa,medCvr);
-    html.push('<tr><td><b>'+esc(k.kw)+'</b></td><td>'+esc(k.match)+'</td><td class="num">'+money(k.spend)+'</td><td class="num">'+int(k.clicks)+'</td><td class="num">'+pct(ctr)+'</td><td class="num">'+money2(cpc)+'</td><td class="num">'+int(k.conv)+'</td><td class="num">'+pct(cvr)+'</td><td class="num">'+(isFinite(cpa)?money(cpa):'—')+'</td><td><span class="pill '+st[1]+'">'+st[0]+'</span></td></tr>')});
+    html.push('<tr><td><b>'+esc(k.kw)+'</b></td><td>'+(k.camp?esc(k.camp):'<span style="color:var(--ink2)">—</span>')+'</td><td>'+esc(k.match)+'</td><td class="num">'+money(k.spend)+'</td><td class="num">'+int(k.clicks)+'</td><td class="num">'+pct(ctr)+'</td><td class="num">'+money2(cpc)+'</td><td class="num">'+int(k.conv)+'</td><td class="num">'+pct(cvr)+'</td><td class="num">'+(isFinite(cpa)?money(cpa):'—')+'</td><td><span class="pill '+st[1]+'">'+st[0]+'</span></td></tr>')});
   html.push('</tbody>');$('kwTbl').innerHTML=html.join('');
 }
 function renderSearchTerms(data){
   var f=S.filters,sts=data.searchTerms;if(sts.length>50)sts=sts.slice(0,50);
   if(!sts.length){$('stTbl').innerHTML='<tbody><tr><td style="color:var(--ink2);padding:14px 8px">当前时间窗口内 Google Ads 没有该维度的真实数据（账户可能已停投，或该周期为纯 PMax / 展示广告投放）。</td></tr></tbody>';return}
-  var html=['<thead><tr><th>搜索词</th><th class="num">点击</th><th class="num">花费</th><th class="num">转化</th><th class="num">CPA</th><th>意图</th><th>建议</th></tr></thead><tbody>'];
+  var html=['<thead><tr><th>搜索词</th><th>所属广告系列</th><th class="num">点击</th><th class="num">花费</th><th class="num">转化</th><th class="num">CPA</th><th>意图</th><th>建议</th></tr></thead><tbody>'];
   sts.forEach(function(s){
     var cpa=safeDiv(s.spend,s.conv),intent=intentOf(s.term);
     var rec=s.conv>0?'加精确词':(s.spend>=100&&s.conv===0?'加否定词':'观察');
     var recCls=s.conv>0?'p-best':(rec==='加否定词'?'p-poor':'p-maint');
-    html.push('<tr><td><b>'+esc(s.term)+'</b></td><td class="num">'+s.clicks+'</td><td class="num">'+money(s.spend)+'</td><td class="num">'+s.conv+'</td><td class="num">'+(isFinite(cpa)?money(cpa):'—')+'</td><td><span class="pill p-maint">'+intent+'</span></td><td><span class="pill '+recCls+'">'+rec+'</span></td></tr>')});
+    html.push('<tr><td><b>'+esc(s.term)+'</b></td><td>'+(s.camp?esc(s.camp):'<span style="color:var(--ink2)">—</span>')+'</td><td class="num">'+s.clicks+'</td><td class="num">'+money(s.spend)+'</td><td class="num">'+s.conv+'</td><td class="num">'+(isFinite(cpa)?money(cpa):'—')+'</td><td><span class="pill p-maint">'+intent+'</span></td><td><span class="pill '+recCls+'">'+rec+'</span></td></tr>')});
   html.push('</tbody>');$('stTbl').innerHTML=html.join('');
 }
 function renderAds(data){
@@ -1435,24 +1479,20 @@ function renderAds(data){
     ahtml.push('<tr><td><b>'+esc(a.asset)+'</b></td><td>'+esc(a.theme)+'</td><td class="num">'+pct(a.ctr)+'</td><td class="num">'+pct(a.cvr)+'</td><td><span class="pill '+pf[1]+'">'+pf[0]+'</span></td></tr>')});
   ahtml.push('</tbody>');$('assetTbl').innerHTML=ahtml.join('');
 }
-var LANG_MAP={'United States':'English','Germany':'German','United Kingdom':'English','Global':'Multi-language','United Arab Emirates':'Arabic / English','Brazil':'Portuguese','France':'French','Japan':'Japanese','Australia':'English','Canada':'English / French'};
 function renderMarket(rows,data){
   var devG=groupBy(rows,data,function(r){return DEVICES[r[3]]});
   var html=['<thead><tr><th>设备</th><th class="num">花费</th><th class="num">点击</th><th class="num">CTR</th><th class="num">转化</th><th class="num">CVR</th><th class="num">CPA</th></tr></thead><tbody>'];
   DEVICES.forEach(function(d){var g=devG[d];if(!g)return;var ctr=safeDiv(g.clicks,g.impr),cvr=safeDiv(g.conv,g.clicks),cpa=safeDiv(g.spend,g.conv);
     html.push('<tr><td><b>'+d+'</b></td><td class="num">'+money(g.spend)+'</td><td class="num">'+int(g.clicks)+'</td><td class="num">'+pct(ctr)+'</td><td class="num">'+int(g.conv)+'</td><td class="num">'+pct(cvr)+'</td><td class="num">'+(isFinite(cpa)?money(cpa):'—')+'</td></tr>')});
   html.push('</tbody>');$('devTbl').innerHTML=html.join('');
+  /* 国家 / 地区：只保留国家维度（由广告系列名识别具体国家，无法识别的回退到大区） */
   var mktG=groupBy(rows,data,function(r){return data.campaigns[r[1]].market});
   var mkts=Object.keys(mktG).map(function(k){return {name:k,g:mktG[k]}}).sort(function(a,b){return b.g.spend-a.g.spend});
-  var m=['<thead><tr><th>国家</th><th class="num">花费</th><th class="num">转化</th><th class="num">CPA</th><th class="num">合格线索</th></tr></thead><tbody>'];
+  var m=['<thead><tr><th>国家 / 地区</th><th class="num">花费</th><th class="num">转化</th><th class="num">CPA</th><th class="num">合格线索</th></tr></thead><tbody>'];
   mkts.forEach(function(x){var cpa=safeDiv(x.g.spend,x.g.conv);var q=Math.round(x.g.conv*0.38);
     m.push('<tr><td><b>'+esc(x.name)+'</b></td><td class="num">'+money(x.g.spend)+'</td><td class="num">'+int(x.g.conv)+'</td><td class="num">'+(isFinite(cpa)?money(cpa):'—')+'</td><td class="num">'+q+'</td></tr>')});
   m.push('</tbody>');$('mktTbl').innerHTML=m.join('');
-  var lg={};mkts.forEach(function(x){var lang=LANG_MAP[x.name]||'English';lg[lang]=(lg[lang]||0)+x.g.spend});
-  var l=['<thead><tr><th>语言</th><th class="num">花费占比</th></tr></thead><tbody>'];
-  var tot=mkts.reduce(function(a,x){return a+x.g.spend},0)||1;
-  Object.keys(lg).sort(function(a,b){return lg[b]-lg[a]}).forEach(function(k){l.push('<tr><td>'+esc(k)+'</td><td class="num">'+pct(lg[k]/tot,1)+'（'+money(lg[k])+'）</td></tr>')});
-  l.push('</tbody>');$('langTbl').innerHTML=l.join('');
+  /* 语言分布表已按需求移除 */
 }
 function renderLanding(data){
   var lps=data.landing;
@@ -1502,8 +1542,8 @@ function hsCampMap(){
   var m={};
   for(var i=0;i<HUBSPOT.camp.length;i++){
     var c=HUBSPOT.camp[i],k=normCamp(c.n);if(!k)continue;
-    if(!m[k])m[k]={n:c.n,lead:0,mql:0,sql:0};
-    m[k].lead+=c.lead;m[k].mql+=c.mql;m[k].sql+=c.sql;
+    if(!m[k])m[k]={n:c.n,lead:0,pre:0,mql:0,sql:0};
+    m[k].lead+=c.lead;m[k].pre+=(c.pre||0);m[k].mql+=c.mql;m[k].sql+=c.sql;
   }
   return m;
 }
@@ -1591,40 +1631,6 @@ function renderFunnel(rows,data){
   var advice=['流量到达落地页的参与率偏低：检查页面打开速度与首屏内容相关性。','有点击但表单启动率低：落地页 CTA 与表单位置需要前置、加引导。','表单启动后提交率低：<b>优先精简表单字段</b>（减少非必填项）、优化移动端输入体验。','提交后合格线索占比低：检查线索来源质量与表单筛选问题设置。','合格线索转 SQL 偏低：与销售跟进 SLA、线索评分规则对齐。'];
   $('funnelDiag').innerHTML='<b>诊断：</b>最薄弱环节是「'+stageNames[weak]+'」（'+pct(rates[weak],0)+'，基准 '+pct(FUNNEL_BENCH[weak],0)+'）。'+advice[weak];
 }
-function renderHubSpotCamp(data){
-  var el=$('hsCampTbl'),tag=$('hsCampTag');
-  if(!el)return;
-  var HM=hsCampMap();
-  if(!HM){
-    el.innerHTML='<tr><td style="color:var(--ink2);padding:14px 8px">HubSpot 暂无广告系列级归因数据。</td></tr>';
-    if(tag)tag.textContent='';return;
-  }
-  var rows=[],matched=0,total=0,cov=0;
-  Object.keys(HM).forEach(function(k){total+=HM[k].lead});
-  var campTot=(typeof HUBSPOT!=='undefined'&&HUBSPOT&&HUBSPOT.campTotal)||total||1;
-  var cohort=(typeof HUBSPOT!=='undefined'&&HUBSPOT&&HUBSPOT.cohortInWin)||campTot||1;
-  (data.campaigns||[]).forEach(function(c){
-    var e=HM[normCamp(c.name)];if(!e)return;
-    rows.push({n:c.name,lead:e.lead,mql:e.mql,sql:e.sql});matched+=e.lead;
-  });
-  rows.sort(function(a,b){return b.lead-a.lead});
-  var h=['<thead><tr><th>广告系列</th><th class="num">线索</th><th class="num">MQL</th><th class="num">SQL</th>'
-        +'<th class="num">线索 → MQL+SQL</th></tr></thead><tbody>'];
-  if(!rows.length){
-    h.push('<tr><td colspan="5" style="color:var(--ink2);padding:14px 8px">当前账户的广告系列在 HubSpot 中没有匹配的线索记录。</td></tr>');
-  }
-  rows.slice(0,15).forEach(function(r){
-    var q=safeDiv(r.mql+r.sql,r.lead);
-    h.push('<tr><td><b>'+esc(r.n)+'</b></td><td class="num">'+int(r.lead)+'</td><td class="num">'+int(r.mql)
-      +'</td><td class="num">'+int(r.sql)+'</td><td class="num">'+pct(q)+'</td></tr>');
-  });
-  h.push('</tbody>');
-  el.innerHTML=h.join('');
-  if(tag)tag.textContent='本账户匹配 '+int(matched)+' 条线索；同期群 '+int(cohort)
-    +' 人中 '+int(campTot)+' 人可归因到具体广告系列（'+pct(safeDiv(campTot,cohort))+'）· 近 '
-    +((typeof HUBSPOT!=='undefined'&&HUBSPOT&&HUBSPOT.win)||180)+' 天快照';
-}
-
 function renderHubSpot(){
   var el=$('hsTbl'),diag=$('hsDiag');
   if(!S.hubspot||!S.hubspot.length){
@@ -1632,33 +1638,25 @@ function renderHubSpot(){
     diag.innerHTML='';$('hsDemoTag').textContent='';
     return;
   }
-  var order={'付费广告（聚合）':0,'付费搜索 PAID_SEARCH':1,'付费社媒 PAID_SOCIAL':2,'线下导入 OFFLINE':3,'自然搜索 ORGANIC_SEARCH':4,'直接流量 DIRECT_TRAFFIC':5};
-  var rows=S.hubspot.slice().sort(function(a,b){return (order[a.source]!==undefined?order[a.source]:9)-(order[b.source]!==undefined?order[b.source]:9)});
-  var ts=rows[0]&&rows[0].ts?rows[0].ts:'';
+  /* 仅保留 Google 广告（付费搜索 PAID_SEARCH）来源；其他来源（社媒/线下/自然/直接/推荐）不再展示 */
+  var ps=S.hubspot.filter(function(r){return r.source==='付费搜索 PAID_SEARCH'})[0];
+  if(!ps)ps=S.hubspot.filter(function(r){return r.source.indexOf('PAID_SEARCH')===0})[0];
+  var ts=ps&&ps.ts?ps.ts:'';
   $('hsDemoTag').textContent=ts?('同步于 '+ts):'';
   var html=['<thead><tr><th>来源</th><th class="num">联系人</th><th class="num">Lead</th><th class="num">Pre-Leads</th><th class="num">MQL</th><th class="num">SQL</th><th class="num">Lead→MQL</th><th class="num">MQL→SQL</th></tr></thead><tbody>'];
-  rows.forEach(function(r){
-    var paid=r.source.indexOf('付费')===0;
-    var low=r.m2s>0&&r.m2s<5;
-    html.push('<tr'+(paid?' style="background:rgba(59,130,246,.06)"':'')+'><td><b>'+esc(r.source)+'</b>'+(paid?' <span class="pill p-good">付费</span>':'')+'</td>'+
-      '<td class="num">'+int(r.total)+'</td><td class="num">'+int(r.lead)+'</td><td class="num" style="color:var(--ink2)">'+int(r.pre)+'</td><td class="num">'+int(r.mql)+'</td>'+
-      '<td class="num"><b>'+int(r.sql)+'</b></td><td class="num">'+(r.l2m?pct(r.l2m/100):'—')+'</td>'+
-      '<td class="num"><span style="color:'+(low?'#dc2626':'var(--ink)')+';font-weight:600">'+(r.m2s?pct(r.m2s/100):'—')+'</span></td></tr>');
-  });
+  if(ps){
+    var low=ps.m2s>0&&ps.m2s<5;
+    html.push('<tr style="background:rgba(59,130,246,.06)"><td><b>'+esc(ps.source)+'</b> <span class="pill p-good">付费搜索</span></td>'+
+      '<td class="num">'+int(ps.total)+'</td><td class="num">'+int(ps.lead)+'</td><td class="num" style="color:var(--ink2)">'+int(ps.pre)+'</td><td class="num">'+int(ps.mql)+'</td>'+
+      '<td class="num"><b>'+int(ps.sql)+'</b></td><td class="num">'+(ps.l2m?pct(ps.l2m/100):'—')+'</td>'+
+      '<td class="num"><span style="color:'+(low?'#dc2626':'var(--ink)')+';font-weight:600">'+(ps.m2s?pct(ps.m2s/100):'—')+'</span></td></tr>');
+  }
   html.push('</tbody>');el.innerHTML=html.join('');
-  var paid=rows.filter(function(r){return r.source==='付费广告（聚合）'})[0]||{};
-  var ps=rows.filter(function(r){return r.source.indexOf('付费搜索')===0})[0]||{};
-  var off=rows.filter(function(r){return r.source.indexOf('线下')===0})[0]||{};
-  /* 只对单来源行求和（聚合行 = 付费搜索+付费社媒，避免重复计数） */
-  var singles=rows.filter(function(r){return r.source.indexOf('聚合')<0});
-  var totalSql=singles.reduce(function(a,r){return a+r.sql},0)||1;
-  var offShare=Math.round((off.sql||0)/totalSql*100);
-  var paidShare=Math.round(((paid.sql||0))/totalSql*100);
-  diag.innerHTML='<b>HubSpot 真实数据洞察：</b>'+
+  diag.innerHTML='<b>Google Ads（付费搜索）线索质量：</b>'+
     '<ul style="margin:6px 0 0 18px;line-height:1.9">'+
-    '<li><b>SQL 归因严重偏线下</b>：全库 '+totalSql+' 个 SQL 中 '+offShare+'% 来自线下导入（'+int(off.sql||0)+' 个），付费广告仅贡献 '+paidShare+'（'+int(paid.sql||0)+' 个）——线上表单线索的销售跟进链路存在断裂。</li>'+
-    '<li><b>付费 MQL→SQL 转化率 '+(paid.m2s?pct(paid.m2s/100):'—')+'</b>：其中付费搜索 '+(ps.m2s?pct(ps.m2s/100):'—')+'、付费社媒明显偏低，是当前付费漏斗的最大断裂点，优先检查表单质量筛选与销售 SLA。</li>'+
-    '<li><b>Pre-Leads 积压</b>：付费来源有 '+int(paid.pre||0)+' 个联系人停留在 Pre-Leads（未分级），建议设定自动分级规则（如完成邮箱验证/留资字段齐全即升 Lead）。</li>'+
+    '<li>近 '+(typeof HUBSPOT!=='undefined'&&HUBSPOT?HUBSPOT.win:180)+' 天付费搜索来源新增联系人 '+int(ps?ps.total:0)+' 个，其中 Lead '+int(ps?ps.lead:0)+'、Pre-Leads '+int(ps?ps.pre:0)+'、MQL '+int(ps?ps.mql:0)+'、SQL '+int(ps?ps.sql:0)+'。</li>'+
+    '<li>Pre-Leads '+(ps&&ps.pre>0?'有 '+int(ps.pre)+' 个联系人停留在未分级状态，建议设定自动分级规则（完成邮箱验证 / 留资字段齐全即升 Lead）':'暂无积压')+'。</li>'+
+    '<li>各广告系列的 Pre-Leads 数量已融合进上方「广告系列表现」表的 Pre-Leads 列（按 HubSpot original traffic source drill-down 1 与 Google 广告系列名映射）。</li>'+
     '</ul>';
 }
 function renderOpt(acc){
@@ -1761,7 +1759,6 @@ function renderAll(){
   renderLanding(data);
   renderFunnel(rows,data);
   renderHubSpot();
-  renderHubSpotCamp(data);
   renderOpt(acc);
   renderFocus(acc);
   renderAI(acc,data,camps,prevCamps,cur);

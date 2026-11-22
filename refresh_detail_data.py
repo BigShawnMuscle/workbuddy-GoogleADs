@@ -175,17 +175,22 @@ def main():
 
         # ---- 关键词 ----
         q = ("SELECT ad_group_criterion.criterion_id, ad_group_criterion.keyword.text, "
-             "ad_group_criterion.keyword.match_type, segments.date, "
+             "ad_group_criterion.keyword.match_type, campaign.name, segments.date, "
              "metrics.impressions, metrics.clicks, metrics.cost_micros, metrics.conversions "
              "FROM keyword_view WHERE segments.date BETWEEN '%s' AND '%s' "
              "AND metrics.impressions > 0" % (s_start, s_end))
         matches = {}
+        kw_camps = {}
 
         def kw_key(r):
             t = (r.ad_group_criterion.keyword.text or "").strip()
             if not t:
                 return ""
             matches[t] = MATCH_CN.get(r.ad_group_criterion.keyword.match_type.name, "—")
+            # 记录关键词所属广告系列（取首个非空，同一关键词跨系列时取花费更高的那个在聚合时覆盖）
+            cn = (r.campaign.name or "").strip()
+            if cn:
+                kw_camps[t] = cn
             return t
 
         res = acc_rows(svc, cid, q, kw_key,
@@ -194,22 +199,31 @@ def main():
                        days_ago, TOP["kw"], "关键词")
         if res:
             names, rows = res
-            blk["kw"] = {"n": names, "m": [matches.get(n, "—") for n in names], "r": rows}
+            blk["kw"] = {"n": names, "m": [matches.get(n, "—") for n in names],
+                         "c": [kw_camps.get(n, "") for n in names], "r": rows}
             print("  关键词 %d 个 / %d 行" % (len(names), len(rows)))
 
         # ---- 搜索词 ----
-        q = ("SELECT search_term_view.search_term, segments.date, "
+        q = ("SELECT search_term_view.search_term, campaign.name, segments.date, "
              "metrics.impressions, metrics.clicks, metrics.cost_micros, metrics.conversions "
              "FROM search_term_view WHERE segments.date BETWEEN '%s' AND '%s' "
              "AND metrics.clicks > 0" % (s_start, s_end))
-        res = acc_rows(svc, cid, q,
-                       lambda r: (r.search_term_view.search_term or "").strip(),
+        st_camps = {}
+
+        def st_key(r):
+            t = (r.search_term_view.search_term or "").strip()
+            cn = (r.campaign.name or "").strip()
+            if cn:
+                st_camps[t] = cn
+            return t
+
+        res = acc_rows(svc, cid, q, st_key,
                        lambda r: [r.metrics.impressions, r.metrics.clicks,
                                   r.metrics.cost_micros, r.metrics.conversions],
                        days_ago, TOP["st"], "搜索词")
         if res:
             names, rows = res
-            blk["st"] = {"n": names, "r": rows}
+            blk["st"] = {"n": names, "c": [st_camps.get(n, "") for n in names], "r": rows}
             print("  搜索词 %d 个 / %d 行" % (len(names), len(rows)))
 
         # ---- 广告 ----
